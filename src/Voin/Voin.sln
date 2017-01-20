@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voin.Core", "Voin.Core\Voin.Core.csproj", "{E9DB7C12-D0C8-444C-94F0-EA93D529F408}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voin.Test", "Voin.Test\Voin.Test.csproj", "{E535EBEE-8203-4092-B80D-7A0393D62768}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9DB7C12-D0C8-444C-94F0-EA93D529F408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9DB7C12-D0C8-444C-94F0-EA93D529F408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9DB7C12-D0C8-444C-94F0-EA93D529F408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9DB7C12-D0C8-444C-94F0-EA93D529F408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E535EBEE-8203-4092-B80D-7A0393D62768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E535EBEE-8203-4092-B80D-7A0393D62768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E535EBEE-8203-4092-B80D-7A0393D62768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E535EBEE-8203-4092-B80D-7A0393D62768}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

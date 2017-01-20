@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E9DB7C12-D0C8-444C-94F0-EA93D529F408}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Voin.Core</RootNamespace>
+    <AssemblyName>Voin.Core</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IActor.cs" />
+    <Compile Include="InMemoryRepository.cs" />
+    <Compile Include="InMemoryRightStore.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="IResource.cs" />
+    <Compile Include="IRight.cs" />
+    <Compile Include="IRightStore.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RightInstance.cs" />
+    <Compile Include="RightService.cs" />
+    <Compile Include="Rules\CoreDsl\Actors\ActorAnd.cs" />
+    <Compile Include="Rules\CoreDsl\Actors\ActorConstant.cs" />
+    <Compile Include="Rules\CoreDsl\Actors\ActorOr.cs" />
+    <Compile Include="Rules\CoreDsl\Actors\ActorPredicate.cs" />
+    <Compile Include="Rules\CoreDsl\Actors\IActorGroup.cs" />
+    <Compile Include="Rules\CoreDsl\And.cs" />
+    <Compile Include="Rules\CoreDsl\Constant.cs" />
+    <Compile Include="Rules\CoreDsl\ICompleteRule.cs" />
+    <Compile Include="Rules\CoreDsl\IGroup.cs" />
+    <Compile Include="Rules\CoreDsl\IRule.cs" />
+    <Compile Include="Rules\CoreDsl\Or.cs" />
+    <Compile Include="Rules\CoreDsl\Predicate.cs" />
+    <Compile Include="Rules\CoreDsl\Resources\IResourceGroup.cs" />
+    <Compile Include="Rules\CoreDsl\Resources\ResourceAnd.cs" />
+    <Compile Include="Rules\CoreDsl\Resources\ResourceConstant.cs" />
+    <Compile Include="Rules\CoreDsl\Resources\ResourceOr.cs" />
+    <Compile Include="Rules\CoreDsl\Resources\ResourcePredicate.cs" />
+    <Compile Include="Rules\CoreDsl\Rights\IRightGroup.cs" />
+    <Compile Include="Rules\CoreDsl\Rights\RightAnd.cs" />
+    <Compile Include="Rules\CoreDsl\Rights\RightConstant.cs" />
+    <Compile Include="Rules\CoreDsl\Rights\RightOr.cs" />
+    <Compile Include="Rules\CoreDsl\Rights\RightPredicate.cs" />
+    <Compile Include="Rules\CoreDsl\Rule.cs" />
+    <Compile Include="Rules\EnglishDsl\Root.cs" />
+    <Compile Include="Rules\EnglishDsl\Subject.cs" />
+    <Compile Include="Rules\EnglishDsl\Verb.cs" />
+    <Compile Include="Rules\EnglishDsl\VerbObject.cs" />
+    <Compile Include="Tools\EnumerableExtensions.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
