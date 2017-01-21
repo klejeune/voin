@@ -120,9 +120,11 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.Any<User>().With(u => !string.IsNullOrWhiteSpace(u.Email)).Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var aliceHasAccess = rightService.HasRight(alice, redPrinter, see);
+            var bobHasAccess = rightService.HasRight(bob, redPrinter, see);
 
-            Assert.IsTrue(hasAccess);
+            Assert.IsTrue(aliceHasAccess);
+            Assert.IsFalse(bobHasAccess);
         }
 
         [TestMethod]
