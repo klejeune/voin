@@ -27,12 +27,13 @@ namespace Voin.Core.Rules.EnglishDsl
             return new VerbObject(this.rule);
         }
 
-        public VerbObject All<T>() where T : IResource
+        public VerbObject<T> All<T>() where T : IResource
         {
             var resourceType = this.GetResourceType<T>();
-            this.rule.Resource = new ResourcePredicate(resource => resource.Type == resourceType);
+            var resource = new ResourcePredicate<T>(r => r.Type == resourceType);
+            this.rule.Resource = resource;
 
-            return new VerbObject(this.rule);
+            return new VerbObject<T>(this.rule, resource);
         }
 
         public VerbObject OnlyThe(IResource resource)

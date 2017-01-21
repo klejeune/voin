@@ -15,7 +15,7 @@ namespace Voin.Core
         private readonly IRepository<IResource> resources;
         private readonly IRepository<IRight> rights;
 
-        private List<IRule> rules = new List<IRule>();
+        private readonly List<IRule> rules = new List<IRule>();
 
         public RightService(IRightStore rightStore, IRepository<IActor> actors, IRepository<IResource> resources, IRepository<IRight> rights)
         {
@@ -25,7 +25,7 @@ namespace Voin.Core
             this.rights = rights;
         }
 
-        public bool HasRight(IActor actor, IResource resource, IRight right)
+        public bool HasRight(IActor actor, IRight right, IResource resource)
         {
             return this.rightStore.GetRights(actor, resource).Contains(right);
         }
@@ -75,9 +75,9 @@ namespace Voin.Core
             var combinations = actors
                 .SelectMany(actor => resources.SelectMany(
                     resource => rights.Select(
-                        right => new RightInstance(actor, resource, right, new [] { new Rule {Id = ruleId}})))).ToList();
+                        right => new RightInfo(actor, resource, right, new [] { new Rule {Id = ruleId}})))).ToList();
 
-            this.rightStore.StoreRightList(combinations);
+            this.rightStore.Add(combinations);
         }
 
         public void AddRule(Func<Root, ICompleteRule> rule)
@@ -93,11 +93,52 @@ namespace Voin.Core
                         right => new {Actor = actor, Resource = resource, Right = right,}))).ToList();
 
             var validCombinations = combinations
-                .Select(c => new RightInstance(c.Actor, c.Resource, c.Right, this.rules.Where(r => r.HasAccess(c.Actor, c.Right, c.Resource))))
+                .Select(c => new RightInfo(c.Actor, c.Resource, c.Right, this.rules.Where(r => r.HasAccess(c.Actor, c.Right, c.Resource))))
                 .Where(c => c.Rules.Any())
                 .ToList();
 
-            this.rightStore.StoreRightList(validCombinations);
+            this.rightStore.Add(validCombinations);
+        }
+
+        private IEnumerable<RightInfo> GetRightsInfo(IEnumerable<IActor> actorsToUpdate, IEnumerable<IResource> resourcesToUpdate)
+        {
+            var combinations = actorsToUpdate
+                .SelectMany(actor => resourcesToUpdate.SelectMany(
+                    resource => rights.Select(
+                        right => new { Actor = actor, Resource = resource, Right = right, }))).ToList();
+
+            var validCombinations = combinations
+                .Select(c => new RightInfo(c.Actor, c.Resource, c.Right, this.rules.Where(r => r.HasAccess(c.Actor, c.Right, c.Resource))))
+                .Where(c => c.Rules.Any())
+                .ToList();
+
+            return validCombinations;
+        }
+
+        public void Update(IActor actor)
+        {
+            var oldRights = this.rightStore.GetRightsInfo(actor).ToList();
+
+            var newRights = this.GetRightsInfo(new[] {actor}, this.resources).ToList();
+
+            var rightsToDelete = oldRights.Where(o => !newRights.Contains(o)).ToList();
+            var rightsToAdd = newRights.Where(n => !oldRights.Contains(n)).ToList();
+
+            this.rightStore.Remove(rightsToDelete);
+            this.rightStore.Add(rightsToAdd);
+        }
+
+        public void Update(IResource resource)
+        {
+            var oldRights = this.rightStore.GetRightsInfo(resource).ToList();
+
+            var newRights = this.GetRightsInfo(this.actors, new[] {resource}).ToList();
+
+            var rightsToDelete = oldRights.Where(o => !newRights.Contains(o)).ToList();
+            var rightsToAdd = newRights.Where(n => !oldRights.Contains(n)).ToList();
+
+            this.rightStore.Remove(rightsToDelete);
+            this.rightStore.Add(rightsToAdd);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Voin.Test.Models.Actors
         public string Id { get; }
         public string Type => "User";
 
-        public string Email { get; }
+        public string Email { get; set; }
 
         public User(string id)
         {

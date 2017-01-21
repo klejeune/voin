@@ -2,7 +2,7 @@
 
 namespace Voin.Core.Rules.CoreDsl.Resources
 {
-    public class ResourcePredicate<TResource> : Predicate<TResource, IResource>, IResourceGroup where TResource : IResource
+    public class ResourcePredicate<TResource> : Predicate<TResource, IResource>, IResourceGroup<TResource> where TResource : IResource
     {
         public ResourcePredicate(Func<TResource, bool> value) : base(value)
         {

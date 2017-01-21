@@ -45,7 +45,7 @@
     <Compile Include="IRight.cs" />
     <Compile Include="IRightStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RightInstance.cs" />
+    <Compile Include="RightInfo.cs" />
     <Compile Include="RightService.cs" />
     <Compile Include="Rules\CoreDsl\Actors\ActorAnd.cs" />
     <Compile Include="Rules\CoreDsl\Actors\ActorConstant.cs" />

@@ -67,7 +67,7 @@ namespace Voin.Test
             var rightService = this.BuildRightService();
             rightService.AddRule("Alice can see the red printer", alice, redPrinter, see);
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -78,7 +78,7 @@ namespace Voin.Test
             var rightService = this.BuildRightService();
             rightService.AddRule("Alice can see the red printer", alice, redPrinter, see);
 
-            var hasAccess = rightService.HasRight(bob, redPrinter, see);
+            var hasAccess = rightService.HasRight(bob, see, redPrinter);
 
             Assert.IsFalse(hasAccess);
         }
@@ -89,7 +89,7 @@ namespace Voin.Test
             var rightService = this.BuildRightService();
             rightService.AddRule("Any user can see the red printer", actor => actor.Type == "User", redPrinter, see);
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -99,7 +99,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.AnyOne().Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -110,7 +110,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.Any("User").Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -120,8 +120,8 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.Any<User>().With(u => !string.IsNullOrWhiteSpace(u.Email)).Can(see).The(redPrinter));
 
-            var aliceHasAccess = rightService.HasRight(alice, redPrinter, see);
-            var bobHasAccess = rightService.HasRight(bob, redPrinter, see);
+            var aliceHasAccess = rightService.HasRight(alice, see, redPrinter);
+            var bobHasAccess = rightService.HasRight(bob, see, redPrinter);
 
             Assert.IsTrue(aliceHasAccess);
             Assert.IsFalse(bobHasAccess);
@@ -132,7 +132,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.Any<User>().Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -142,7 +142,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.Only("User").Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -152,7 +152,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.Only<User>().Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -162,7 +162,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.Only(alice).Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -172,7 +172,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.All("User").Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -182,7 +182,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.All<User>().Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -192,7 +192,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.All("User").Can(see).All("Printer"));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -202,7 +202,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.All("User").Can(see).All<Printer>());
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -212,7 +212,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.All("User").Can(see).OnlyThe(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }
@@ -222,7 +222,7 @@ namespace Voin.Test
         {
             var rightService = this.BuildRightService(_ => _.All("User").Can(see).And(use).OnlyThe(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            var hasAccess = rightService.HasRight(alice, see, redPrinter);
 
             Assert.IsTrue(hasAccess);
         }

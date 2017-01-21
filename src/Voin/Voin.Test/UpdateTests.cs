@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Voin.Core;
 using Voin.Core.Rules.CoreDsl;
@@ -41,18 +43,42 @@ namespace Voin.Test
         }
 
         [TestMethod]
-        public void TestAnyUserCanSeeTheRedPrinter()
+        public void TestActorChange()
         {
-            var rightService = this.BuildRightService(_ => _.Any<User>().Can(see).The(redPrinter));
+            var charles = new User("Charles", "charles@example.com");
+            
+            var rightService = this.BuildRightService(
+                charles,
+                _ => _.Any<User>().With(u => !string.IsNullOrWhiteSpace(u.Email)).Can(see).The(redPrinter));
 
-            var hasAccess = rightService.HasRight(alice, redPrinter, see);
+            charles.Email = "";
+            rightService.Update(charles);
 
-            Assert.IsTrue(hasAccess);
+            var hasAccess = rightService.HasRight(charles, see, redPrinter);
+
+            Assert.IsFalse(hasAccess);
         }
 
-        private RightService BuildRightService(params Func<Root, ICompleteRule>[] rules)
+        [TestMethod]
+        public void TestResourceChange()
         {
-            var rightService = new RightService(new InMemoryRightStore(), this.actors, resources, rights);
+            var printer = new Printer("Best printer ever") {IsActive = true};
+            
+            var rightService = this.BuildRightService(
+                printer,
+                _ => _.Any<User>().Can(see).All<Printer>().With(p => printer.IsActive));
+
+            printer.IsActive = false;
+            rightService.Update(printer);
+
+            var hasAccess = rightService.HasRight(alice, see, printer);
+
+            Assert.IsFalse(hasAccess);
+        }
+
+        private RightService BuildRightService(IEnumerable<IActor> actors, IEnumerable<IResource> resources, params Func<Root, ICompleteRule>[] rules)
+        {
+            var rightService = new RightService(new InMemoryRightStore(), new InMemoryRepository<IActor>(actors), new InMemoryRepository<IResource>(resources), rights);
 
             foreach (var rule in rules)
             {
@@ -62,6 +88,21 @@ namespace Voin.Test
             rightService.Initialize();
 
             return rightService;
+        }
+
+        private RightService BuildRightService(params Func<Root, ICompleteRule>[] rules)
+        {
+            return this.BuildRightService(this.actors, this.resources, rules);
+        }
+
+        private RightService BuildRightService(IActor actor, params Func<Root, ICompleteRule>[] rules)
+        {
+            return this.BuildRightService(new[] {actor}, this.resources, rules);
+        }
+
+        private RightService BuildRightService(IResource resource, params Func<Root, ICompleteRule>[] rules)
+        {
+            return this.BuildRightService(this.actors, new[] { resource }, rules);
         }
     }
 }
