@@ -36,6 +36,13 @@ namespace Voin.Core.Rules.EnglishDsl
             return new Subject(this.rule);
         }
 
+        public Subject Actor(IActor actor)
+        {
+            this.rule.Actor = new ActorPredicate<IActor>(a => a.Equals(actor));
+
+            return new Subject(this.rule);
+        }
+
         public Subject Only<T>() where T : IActor
         {
             var actorType = this.GetActorType<T>();

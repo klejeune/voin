@@ -68,17 +68,37 @@ namespace Voin.Test
                 printer,
                 _ => _.Any<User>().Can(see).All<Printer>().With(p => printer.IsActive));
 
+            Assert.IsTrue(rightService.HasRight(alice, see, printer));
+
+            printer.IsActive = false;
+            rightService.Update(printer);
+            
+            Assert.IsFalse(rightService.HasRight(alice, see, printer));
+        }
+
+        [TestMethod]
+        public void TestResourceChangeWithTwoActors()
+        {
+            var printer = new Printer("Best printer ever") { IsActive = true };
+
+            var rightService = this.BuildRightService(
+                printer,
+                _ => _.Actor(this.alice).Can(see).All<Printer>().With(p => printer.IsActive),
+                _ => _.Actor(this.bob).Can(see).All<Printer>().With(p => !printer.IsActive));
+
+            Assert.IsTrue(rightService.HasRight(alice, see, printer));
+            Assert.IsFalse(rightService.HasRight(bob, see, printer));
+
             printer.IsActive = false;
             rightService.Update(printer);
 
-            var hasAccess = rightService.HasRight(alice, see, printer);
-
-            Assert.IsFalse(hasAccess);
+            Assert.IsFalse(rightService.HasRight(alice, see, printer));
+            Assert.IsTrue(rightService.HasRight(bob, see, printer));
         }
 
-        private RightService BuildRightService(IEnumerable<IActor> actors, IEnumerable<IResource> resources, params Func<Root, ICompleteRule>[] rules)
+        private RightService BuildRightService(IEnumerable<IActor> serviceActors, IEnumerable<IResource> serviceResources, params Func<Root, ICompleteRule>[] rules)
         {
-            var rightService = new RightService(new InMemoryRightStore(), new InMemoryRepository<IActor>(actors), new InMemoryRepository<IResource>(resources), rights);
+            var rightService = new RightService(new InMemoryRightStore(), new InMemoryRepository<IActor>(serviceActors), new InMemoryRepository<IResource>(serviceResources), rights);
 
             foreach (var rule in rules)
             {
