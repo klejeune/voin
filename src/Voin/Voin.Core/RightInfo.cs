@@ -10,14 +10,14 @@ namespace Voin.Core
         public IActor Actor { get; }
         public IResource Resource { get; }
         public IRight Right { get; }
-        public IEnumerable<IRule> Rules { get; }
+        public IRule Rule { get; }
 
-        public RightInfo(IActor actor, IResource resource, IRight right, IEnumerable<IRule> rules)
+        public RightInfo(IActor actor, IRight right, IResource resource, IRule rule)
         {
             this.Actor = actor;
             this.Resource = resource;
             this.Right = right;
-            this.Rules = rules.ToList();
+            this.Rule = rule;
         }
 
         public override string ToString()
@@ -27,7 +27,7 @@ namespace Voin.Core
 
         public override int GetHashCode()
         {
-            return this.Actor.GetHashCode() + this.Resource.GetHashCode() + this.Right.GetHashCode() + this.Rules.GetHashCode();
+            return this.Actor.GetHashCode() + this.Resource.GetHashCode() + this.Right.GetHashCode() + this.Rule.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -39,9 +39,9 @@ namespace Voin.Core
         {
             return obj != null
                    && obj.Actor.Equals(this.Actor)
-                   && obj.Resource == this.Resource
-                   && obj.Right == this.Right
-                   && obj.Rules.SequenceEqual(this.Rules);
+                   && obj.Resource.Equals(this.Resource)
+                   && obj.Right.Equals(this.Right)
+                   && obj.Rule.Equals(this.Rule);
         }
     }
 }

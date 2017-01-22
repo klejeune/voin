@@ -105,8 +105,6 @@ namespace Voin.Test
                 rightService.AddRule(rule);
             }
 
-            rightService.Initialize();
-
             return rightService;
         }
 

@@ -39,10 +39,10 @@ namespace Voin.Test
             this.resources = new InMemoryRepository<IResource>(new IResource[] { redPrinter, pinkPrinter, imageFile, videoFile });
             this.rights = new InMemoryRepository<IRight>(new[] { see, use });
         }
-        
-        public void TestMethod1()
+
+        public void Todo()
         {
-            //basics
+            // basics
 
             // right on group
 
@@ -62,39 +62,6 @@ namespace Voin.Test
         }
 
         [TestMethod]
-        public void TestBasic()
-        {
-            var rightService = this.BuildRightService();
-            rightService.AddRule("Alice can see the red printer", alice, redPrinter, see);
-
-            var hasAccess = rightService.HasRight(alice, see, redPrinter);
-
-            Assert.IsTrue(hasAccess);
-        }
-
-        [TestMethod]
-        public void TestBasicNotAllowed()
-        {
-            var rightService = this.BuildRightService();
-            rightService.AddRule("Alice can see the red printer", alice, redPrinter, see);
-
-            var hasAccess = rightService.HasRight(bob, see, redPrinter);
-
-            Assert.IsFalse(hasAccess);
-        }
-
-        [TestMethod]
-        public void TestBasic2()
-        {
-            var rightService = this.BuildRightService();
-            rightService.AddRule("Any user can see the red printer", actor => actor.Type == "User", redPrinter, see);
-
-            var hasAccess = rightService.HasRight(alice, see, redPrinter);
-
-            Assert.IsTrue(hasAccess);
-        }
-
-        [TestMethod]
         public void TestAnyOneCanSeeTheRedPrinter()
         {
             var rightService = this.BuildRightService(_ => _.AnyOne().Can(see).The(redPrinter));
@@ -103,7 +70,6 @@ namespace Voin.Test
 
             Assert.IsTrue(hasAccess);
         }
-
 
         [TestMethod]
         public void TestAnyUserCanSeeTheRedPrinter()
@@ -235,8 +201,6 @@ namespace Voin.Test
             {
                 rightService.AddRule(rule);
             }
-
-            rightService.Initialize();
 
             return rightService;
         }

@@ -8,22 +8,14 @@ namespace Voin.Core
     {
         private readonly List<RightInfo> instances = new List<RightInfo>();
 
-        public void StoreRight(IActor actor, IResource resource, IRight right, string ruleId)
+        public void StoreRight(IActor actor, IRight right, IResource resource, IRule rule)
         {
-            instances.Add(new RightInfo(actor, resource, right, new[] { new Rule { Id = ruleId}}));
+            instances.Add(new RightInfo(actor, right, resource, rule));
         }
 
         public void Add(IEnumerable<RightInfo> rightsToAdd)
         {
             this.instances.AddRange(rightsToAdd);
-        }
-
-        public IEnumerable<IRight> GetRights(IActor actor, IResource resource)
-        {
-            return this.instances
-                .Where(i => i.Actor.Id == actor.Id && i.Resource.Id == resource.Id)
-                .Select(i => i.Right)
-                .Distinct();
         }
 
         public IEnumerable<IRight> GetRights(IActor actor)
@@ -58,6 +50,30 @@ namespace Voin.Core
             {
                 this.instances.Remove(r);
             }
+        }
+
+        public IEnumerable<IRight> GetRights(IActor actor, IResource resource)
+        {
+            return this.instances
+                .Where(i => i.Actor.Id == actor.Id && i.Resource.Id == resource.Id)
+                .Select(i => i.Right)
+                .Distinct();
+        }
+
+        public IEnumerable<IResource> GetResources(IActor actor, IRight right)
+        {
+            return this.instances
+                .Where(i => i.Actor.Id == actor.Id && i.Right.Id == right.Id)
+                .Select(i => i.Resource)
+                .Distinct();
+        }
+
+        public IEnumerable<IActor> GetActors(IRight right, IResource resource)
+        {
+            return this.instances
+                .Where(i => i.Right.Id == right.Id && i.Resource.Id == resource.Id)
+                .Select(i => i.Actor)
+                .Distinct();
         }
     }
 }
