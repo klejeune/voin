@@ -69,7 +69,7 @@ var whatRightsHasAliceOnTheRedPrinter = rightService.GetRights(alice, redPrinter
 ```
 
 ## Why "Voin"?
-"Voin" means "I can" in estonian.
+"Voin" means "I can" in estonian. 
 
 ## Upcoming features
 * Sync methods
